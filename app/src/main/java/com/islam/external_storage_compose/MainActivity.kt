@@ -87,10 +87,6 @@ fun SaveDataInStorage(context: Context, msg: String) {
             }) {
                 Text(text = "Save Public")
             }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "Save Private")
-            }
         }
         Spacer(modifier = Modifier.height(32.dp))
         Text(text = textMsg.value)
@@ -124,13 +120,6 @@ fun SaveDataInStorage(context: Context, msg: String) {
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
             ) {
                 Text(text = "View Public")
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(
-                onClick = { /*TODO*/ },
-                colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
-            ) {
-                Text(text = "View Private")
             }
         }
     }
@@ -178,12 +167,4 @@ private fun writeTextData(file: File, data: String, context: Context) {
         }
     }
 
-}
-
-
-@RequiresApi(Build.VERSION_CODES.S)
-@Preview(showBackground = true)
-@Composable
-fun SaveDataInStoragePreview() {
-    SaveDataInStorage(context = LocalContext.current, msg = "")
 }
