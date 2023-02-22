@@ -30,7 +30,9 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 class MainActivity : ComponentActivity() {
+
     var message = ""
+
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +42,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 
-@RequiresApi(Build.VERSION_CODES.S)
+@RequiresApi(Build.VERSION_CODES.R)
 @Composable
 fun SaveDataInStorage(context: Context, msg: String) {
     var massage by remember { mutableStateOf("") }
@@ -65,15 +69,26 @@ fun SaveDataInStorage(context: Context, msg: String) {
         Spacer(modifier = Modifier.height(16.dp))
         Row {
             Button(onClick = {
+
+
+
                 ActivityCompat.requestPermissions(
                     activity,
                     arrayOf(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.MANAGE_EXTERNAL_STORAGE
                     ),
                     23
                 )
+                if(Build.VERSION.SDK_INT >=30){
+
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                        Uri.parse("package:${activity.packageName}")
+                    )
+                    context.startActivity(intent)
+                }
 
                 val folder =
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
@@ -97,18 +112,10 @@ fun SaveDataInStorage(context: Context, msg: String) {
                     ActivityCompat.requestPermissions(
                         activity,
                         arrayOf(
-                            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
                         ),
                         23
                     )
-
-                    val intent = Intent(
-                        Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
-                        Uri.parse("package:${activity.packageName}")
-                    )
-                    context.startActivity(intent)
-
                     val folder =
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 
@@ -125,7 +132,10 @@ fun SaveDataInStorage(context: Context, msg: String) {
     }
 }
 
+
+
 private fun getData(myFile: File): String {
+
     var fileInputStream: FileInputStream? = null
     try {
         fileInputStream = FileInputStream(myFile)
